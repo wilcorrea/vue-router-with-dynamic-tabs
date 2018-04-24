@@ -23,30 +23,34 @@
         </nav>
 
         <main role="main" class="col-md-10 col-lg-10 pt-3 px-4">
-          <ul class="nav nav-tabs">
-            <li
-              v-for="(tab, key) in tabs" 
-              :key="`title-${key}`"
-              class="nav-item"
-            >
-              <a
-                class="nav-link"
-                :class="{'active': selected === tab.name}"
-                @click="select(tab)"
+          <template v-if="tabs.length">
+            <ul class="nav nav-tabs">
+              <li
+                v-for="(tab, key) in tabs" 
+                :key="`title-${key}`"
+                class="nav-item"
               >
-              {{ tab.label }}
-              <span class="tab-closer" @click="close(tab)">&times;</span>
-              </a>
-            </li>
-          </ul>
-
-          <div
-              v-for="(tab, key) in tabs" 
-              :key="key"
-              v-show="selected === tab.name"
-              class="tab-content"
-          >
-            <Container :ref="tab.name" v-bind="tab"/>
+                <a
+                  class="nav-link"
+                  :class="{'active': selected === tab.name}"
+                  @click="select(tab)"
+                >
+                {{ tab.label }}
+                <span class="tab-closer" @click="close(tab)">&times;</span>
+                </a>
+              </li>
+            </ul>
+            <div
+                v-for="(tab, key) in tabs" 
+                :key="key"
+                v-show="selected === tab.name"
+                class="tab-content"
+            >
+              <Container :ref="tab.name" v-bind="tab"/>
+            </div>
+          </template>
+          <div v-else class="text-center">
+            <small>Selecione um item do menu lateral</small>
           </div>
         </main>
       </div>
