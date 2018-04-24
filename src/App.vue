@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import Container from "./container";
+import Container from "./components/Container.vue";
 
 export default {
   name: "App",
@@ -70,10 +70,17 @@ export default {
   methods: {
     select(tab) {
       this.selected = tab.name;
+      this.go(tab);
     },
-    create(label) {
+    create(label, path) {
+      this.counter++;
+      const name = "tab-" + this.counter;
+      if (path.substring(0, 1) === "/") {
+        path = path.substring(1);
+      }
       const tab = {
-        name: "tab-" + this.counter,
+        path: `/${name}/${path}`,
+        name: name,
         label: label
       };
       return tab;
@@ -84,18 +91,23 @@ export default {
     close(tab) {
       const index = this.tabs.findIndex(item => tab.name === item.name);
       this.tabs.splice(index, 1);
+      this.counter--;
     },
     open(path, label) {
-      this.counter++;
-      const tab = this.create(label);
+      const tab = this.create(label, path);
       this.add(tab);
       this.select(tab);
-      if (path.substring(0, 1) === "/") {
-        path = path.substring(1);
-      }
-      this.$nextTick(() => {
-        this.$refs[this.selected][0].open(`/${tab.name}/${path}`);
-      });
+      this.go(tab);
+    },
+    go(tab) {
+      this.$router.push(tab.path);
+    }
+  },
+  watch: {
+    $route() {
+      const name = this.$route.params.tab;
+      const index = this.tabs.findIndex(item => name === item.name);
+      this.tabs[index].path = this.$route.fullPath;
     }
   }
 };
