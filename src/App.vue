@@ -1,0 +1,130 @@
+<template>
+<div>
+  <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Vue Tabs</a>
+  </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <span class="nav-link" @click="open('/foo', 'Foo')">Foo</span>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link" @click="open('/bar', 'Bar')">Bar</span>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link" @click="open('/bar/foo', 'Bar Foo')">Bar Foo</span>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <main role="main" class="col-md-10 col-lg-10 pt-3 px-4">
+          <ul class="nav nav-tabs">
+            <li
+              v-for="(tab, key) in tabs" 
+              :key="`title-${key}`"
+              class="nav-item"
+            >
+              <a
+                class="nav-link"
+                :class="{'active': selected === tab.name}"
+                @click="select(tab)"
+              >
+              {{ tab.label }}
+              <span class="tab-closer" @click="close(tab)">&times;</span>
+              </a>
+            </li>
+          </ul>
+
+          <div
+              v-for="(tab, key) in tabs" 
+              :key="key"
+              v-show="selected === tab.name"
+              class="tab-content"
+          >
+            <Container :ref="tab.name" v-bind="tab"/>
+          </div>
+        </main>
+      </div>
+    </div>
+</div>
+</template>
+
+<script>
+import Container from "./container";
+
+export default {
+  name: "App",
+  components: {
+    Container
+  },
+  data: () => ({
+    selected: "",
+    counter: 0,
+    tabs: []
+  }),
+  methods: {
+    select(tab) {
+      this.selected = tab.name;
+    },
+    create(label) {
+      const tab = {
+        name: "tab-" + this.counter,
+        label: label
+      };
+      return tab;
+    },
+    add(tab) {
+      this.tabs.push(tab);
+    },
+    close(tab) {
+      const index = this.tabs.findIndex(item => tab.name === item.name);
+      this.tabs.splice(index, 1);
+    },
+    open(path, label) {
+      this.counter++;
+      const tab = this.create(label);
+      this.add(tab);
+      this.select(tab);
+      if (path.substring(0, 1) === "/") {
+        path = path.substring(1);
+      }
+      this.$nextTick(() => {
+        this.$refs[this.selected][0].open(`/${tab.name}/${path}`);
+      });
+    }
+  }
+};
+</script>
+
+<style>
+.nav-link {
+  cursor: pointer;
+  position: relative;
+  padding: 0.5rem 1.5rem !important;
+}
+.sidebar-sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 48px;
+  height: calc(100vh - 48px);
+  padding-top: 0.5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.tab-content {
+  padding: 30px 10px 0 10px;
+}
+
+.tab-closer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.2em 0.6em;
+}
+</style>
