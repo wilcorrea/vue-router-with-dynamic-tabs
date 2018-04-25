@@ -1,30 +1,22 @@
 import Mirror from "./pages/Mirror.vue";
-import Foo from "./pages/Foo.vue";
-import Bar from "./pages/Bar.vue";
+
+import Index from "./layouts/Index.vue";
+import Grid from "./layouts/Grid.vue";
+import Form from "./layouts/Form.vue";
+
+import category from "./domains/general/category/routes";
+import person from "./domains/general/person/routes";
+
+const layouts = {
+  index: Index,
+  grid: Grid,
+  form: Form
+};
 
 export default [
   {
     path: "/:tab",
     component: Mirror,
-    children: [
-      {
-        path: "foo",
-        component: Foo
-      },
-      {
-        path: "bar",
-        component: Bar
-      },
-      {
-        path: "bar",
-        component: Bar,
-        children: [
-          {
-            path: "foo",
-            component: Foo
-          }
-        ]
-      }
-    ]
+    children: [...category(layouts), ...person(layouts)]
   }
 ];

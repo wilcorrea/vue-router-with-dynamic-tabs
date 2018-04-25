@@ -1,61 +1,58 @@
 <template>
-<div>
-  <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Vue Tabs</a>
-  </nav>
+  <div>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Vue Tabs</a>
+    </nav>
 
-    <div class="container-fluid">
-      <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <span class="nav-link" @click="open('/foo', 'Foo')">Foo</span>
-              </li>
-              <li class="nav-item">
-                <span class="nav-link" @click="open('/bar', 'Bar')">Bar</span>
-              </li>
-              <li class="nav-item">
-                <span class="nav-link" @click="open('/bar/foo', 'Bar Foo')">Bar Foo</span>
-              </li>
-            </ul>
-          </div>
-        </nav>
-
-        <main role="main" class="col-md-10 col-lg-10 pt-3 px-4">
-          <template v-if="tabs.length">
-            <ul class="nav nav-tabs">
-              <li
-                v-for="(tab, key) in tabs" 
-                :key="`title-${key}`"
-                class="nav-item"
-              >
-                <a
-                  class="nav-link"
-                  :class="{'active': selected === tab.name}"
-                  @click="select(tab)"
-                >
-                {{ tab.label }}
-                <span class="tab-closer" @click="close(tab)">&times;</span>
-                </a>
-              </li>
-            </ul>
-            <div
-                v-for="(tab, key) in tabs" 
-                :key="key"
-                v-show="selected === tab.name"
-                class="tab-content"
-            >
-              <Container :ref="tab.name" v-bind="tab"/>
+      <div class="container-fluid">
+        <div class="row">
+          <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+              <ul class="nav flex-column">
+                <li class="nav-item">
+                  <span class="nav-link" @click="open('/category', 'Category')">Category</span>
+                </li>
+                <li class="nav-item">
+                  <span class="nav-link" @click="open('/person', 'Person')">Person</span>
+                </li>
+              </ul>
             </div>
-          </template>
-          <div v-else class="text-center">
-            <small>Selecione um item do menu lateral</small>
-          </div>
-        </main>
+          </nav>
+
+          <main role="main" class="col-md-10 col-lg-10 pt-3 px-4">
+            <template v-if="tabs.length">
+              <ul class="nav nav-tabs">
+                <li
+                  v-for="(tab, key) in tabs" 
+                  :key="`title-${key}`"
+                  class="nav-item"
+                >
+                  <a
+                    class="nav-link"
+                    :class="{'active': selected === tab.name}"
+                    @click="select(tab)"
+                  >
+                  {{ tab.label }}
+                  <span class="tab-closer" @click="close(tab)">&times;</span>
+                  </a>
+                </li>
+              </ul>
+              <div
+                  v-for="(tab, key) in tabs" 
+                  :key="key"
+                  v-show="selected === tab.name"
+                  class="tab-content"
+              >
+                <Container :ref="tab.name" v-bind="tab"/>
+              </div>
+            </template>
+            <div v-else class="text-center">
+              <small>Selecione um item do menu lateral</small>
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
-</div>
+  </div>
 </template>
 
 <script>
@@ -98,7 +95,11 @@ export default {
       this.counter--;
     },
     open(path, label) {
-      const tab = this.create(label, path);
+      let tab = this.tabs.find(item => label === item.label);
+      if (tab) {
+        return this.select(tab);
+      }
+      tab = this.create(label, path);
       this.add(tab);
       this.select(tab);
       this.go(tab);
