@@ -1,6 +1,6 @@
 <template>
   <keep-alive>
-    <router-view :key="$router.fullPath"/>
+    <router-view :key="$route.fullPath"/>
   </keep-alive>
 </template>
 

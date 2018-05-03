@@ -16,8 +16,13 @@ const layouts = {
 
 export default [
   {
+    path: '',
+    redirect: '/auth/login'
+  },
+  {
     path: '/auth*',
     component: {
+      name: 'Auth',
       template: '<div><router-link to="/dashboard">Entrar</router-link></div>'
     }
   },
