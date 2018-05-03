@@ -1,29 +1,29 @@
 export default layouts => [
   {
-    path: "person",
+    path: 'person',
     component: layouts.index,
     props: route => ({
-      path: "person"
+      path: 'person'
     }),
     children: [
       {
-        path: "",
-        redirect: "index"
+        path: '',
+        redirect: 'index'
       },
       {
-        path: "index",
+        path: 'index',
         component: layouts.grid,
         props: route => ({
-          path: "person"
+          path: 'person'
         })
       },
       {
-        path: "edit/:id",
+        path: 'edit/:id',
         component: layouts.form,
         props: route => ({
-          path: "person"
+          path: 'person'
         })
       }
     ]
   }
-];
+]

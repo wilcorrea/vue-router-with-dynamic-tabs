@@ -1,10 +1,10 @@
 export default layouts => [
   {
-    path: "category",
+    path: 'category',
     component: layouts.form,
     props: route => ({
-      path: "category",
+      path: 'category',
       back: false
     })
   }
-];
+]

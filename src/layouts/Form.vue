@@ -20,15 +20,15 @@
 </template>
 
 <script>
-import Layout from "./Layout.js";
+import Layout from './Layout'
 
 export default {
   mixins: [Layout],
-  name: "LayoutForm",
+  name: 'LayoutForm',
   methods: {
-    submit($event) {
-      $event.preventDefault();
+    submit ($event) {
+      $event.preventDefault()
     }
   }
-};
+}
 </script>

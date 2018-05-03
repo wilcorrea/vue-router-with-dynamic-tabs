@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import { guid } from "../utils";
+import { guid } from '../utils'
 
 export default {
-  name: "Container",
+  name: 'Container',
   props: {
     name: String,
     label: String
@@ -21,5 +21,5 @@ export default {
   data: () => ({
     uuid: guid()
   })
-};
+}
 </script>

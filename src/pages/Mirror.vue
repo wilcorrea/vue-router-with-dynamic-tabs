@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import { guid } from "../utils";
+import { guid } from '../utils'
 
 export default {
-  name: "Mirror",
+  name: 'Mirror',
   data: () => ({
     uuid: guid()
   })
-};
+}
 </script>

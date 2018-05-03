@@ -6,16 +6,16 @@ export default {
     }
   },
   data: () => ({
-    model: ""
+    model: ''
   }),
   methods: {
-    navigate(path) {
-      const tab = this.$route.params.tab;
-      let push = `/${tab}/${path}`;
+    navigate (path) {
+      const tab = this.$route.params.tab
+      let push = `/${tab}/${path}`
       if (this.path) {
-        push = `/${tab}/${this.path}/${path}`;
+        push = `/${tab}/${this.path}/${path}`
       }
-      this.$router.push(push);
+      this.$router.push(push)
     }
   }
-};
+}

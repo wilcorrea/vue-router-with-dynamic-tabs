@@ -38,10 +38,10 @@
 </template>
 
 <script>
-import Layout from "./Layout.js";
+import Layout from './Layout'
 
 export default {
   mixins: [Layout],
-  name: "LayoutGrid"
-};
+  name: 'LayoutGrid'
+}
 </script>
